@@ -1,5 +1,5 @@
 """
-WSGI config for Modbus_diagnostic_App project.
+WSGI config for actuator_project project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Modbus_diagnostic_App.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'actuator_project.settings')
 
 application = get_wsgi_application()
