@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import Parameters, Readings, Actuators, Users, Logs
 from rest_framework import viewsets
 from rest_framework import permissions
-from actuator_project.actuator_api.serializers import ParametersSerializer, ReadingsSerializer, ActuatorsSerializer, UsersSerializer, LogsSerializer
+from actuator_project.actuator_api.serializers import ParameterSerializer, ReadingSerializer, ActuatorSerializer, UserSerializer, LogSerializer
 
 # Create your views here.
 

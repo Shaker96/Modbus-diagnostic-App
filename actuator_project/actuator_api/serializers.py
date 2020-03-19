@@ -1,27 +1,27 @@
-from django.contrib.auth.models import Parameters, Readings, Actuators, Users, Logs
+from actuator_project.actuator_api.models import Parameter, Reading, Actuator, User, Log
 from rest_framework import serializers
 
-class ParametersSerializer(serializers.HyperlinkedModelSerializer):
+class ParameterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Parameters
+        model = Parameter
         fields = ['description', 'unit']
 
-class ReadingsSerializer(serializers.HyperlinkedModelSerializer):
+class ReadingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Readings
+        model = Reading
         fields = ['parameter_id', 'actuator_id', 'quantity']
 
-class ActuatorsSerializer(serializers.HyperlinkedModelSerializer):
+class ActuatorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Actuators
+        model = Actuator
         fields = ['status', 'modbus_address', 'model']
 
-class UsersSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Users
-        fields = ['email', 'pasword', 'name', 'role']
+        model = User
+        fields = ['email', 'password', 'name', 'role']
 
-class LogsSerializer(serializers.HyperlinkedModelSerializer):
+class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Logs
+        model = Log
         fields = ['user_id', 'actuator_id', 'event', 'log_date']
