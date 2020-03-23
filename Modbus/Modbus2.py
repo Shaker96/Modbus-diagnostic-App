@@ -7,12 +7,12 @@ def readings(actuator_arr):
     temp_dic = {}
     output_arr = []
     for i in range(len(actuator_arr)):
-        reader = modbus.Instrument('COM4', actuator_arr[i], mode='rtu', close_port_after_each_call=False, debug=True)
+        reader = modbus.Instrument('COM1', actuator_arr[i], mode='rtu', close_port_after_each_call=False, debug=True)
         # agregar do while
         flag = True
         while flag:
             try:
-                res = reader.read_registers(5, 10)
+                res = reader.read_registers(0, 4)
                 temp_dic[str(actuator_arr[i])] = res
                 flag = False
             except:
@@ -56,6 +56,5 @@ def separate(num_reg):
 
 
 if __name__ == "__main__":
-    msg = 1234
-    send_data(msg)
+    readings([1])
 

@@ -1,0 +1,223 @@
+[
+    {
+        "model": "actuator_api.register",
+        "pk": 1,
+        "fields": {
+            "register_number": 5,
+            "description": "Registro de Alimentacion Principal (voltios)"
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 2,
+        "fields": {
+            "register_number": 8,
+            "description": "Registr de Posicion de valvula (0-100)"
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 3,
+        "fields": {
+            "register_number": 9,
+            "description": "Abierta",
+            "bit_number": 0
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 4,
+        "fields": {
+            "register_number": 9,
+            "description": "Cerrada",
+            "bit_number": 1
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 5,
+        "fields": {
+            "register_number": 9,
+            "description": "Detenida a medio camino",
+            "bit_number": 2
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 6,
+        "fields": {
+            "register_number": 9,
+            "description": "Abriendo...",
+            "bit_number": 3
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 7,
+        "fields": {
+            "register_number": 9,
+            "description": "Cerrando...",
+            "bit_number": 4
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 8,
+        "fields": {
+            "register_number": 9,
+            "description": "Valvula atascada",
+            "bit_number": 5
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 9,
+        "fields": {
+            "register_number": 9,
+            "description": "NO en remoto",
+            "bit_number": 6
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 10,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla combinada",
+            "bit_number": 7
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 11,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla por sobrecalentamiento",
+            "bit_number": 8
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 12,
+        "fields": {
+            "register_number": 9,
+            "description": "Perilla en STOP",
+            "bit_number": 9
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 13,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla en canal de red A (terminales 5 y 4)",
+            "bit_number": 10
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 14,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla en canal de red B (terminales 13 y 14)",
+            "bit_number": 11
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 15,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla Sobretorque en apertura",
+            "bit_number": 12
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 16,
+        "fields": {
+            "register_number": 9,
+            "description": "Falla Sobretorque en cierre",
+            "bit_number": 13
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 17,
+        "fields": {
+            "register_number": 9,
+            "description": "Valvula movida manualmente",
+            "bit_number": 14
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 18,
+        "fields": {
+            "register_number": 9,
+            "description": "Error en fase de alimentacion",
+            "bit_number": 15
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 19,
+        "fields": {
+            "register_number": 10,
+            "description": "Falla Fase Ausente",
+            "bit_number": 4
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 20,
+        "fields": {
+            "register_number": 10,
+            "description": "Falla Fase Invertida",
+            "bit_number": 5
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 21,
+        "fields": {
+            "register_number": 10,
+            "description": "Abriendo en modo local",
+            "bit_number": 14
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 22,
+        "fields": {
+            "register_number": 10,
+            "description": "Cerrando en modo local",
+            "bit_number": 15
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 23,
+        "fields": {
+            "register_number": 12,
+            "description": "Perilla en REMOTE",
+            "bit_number": 0
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 24,
+        "fields": {
+            "register_number": 14,
+            "description": "Registro de temperatura"
+        }
+    },
+    {
+        "model": "actuator_api.register",
+        "pk": 1,
+        "fields": {
+            "register_number": 15,
+            "description": "Registro de Torque (1-100)"
+        }
+    }
+]
