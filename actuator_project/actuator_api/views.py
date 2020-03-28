@@ -1,12 +1,14 @@
 # default import
 from django.shortcuts import render
 # app and django rest imports
-from django.contrib.auth.models import Parameters, Readings, Actuators, Users, Logs
+from django.contrib.auth.models import Actuator, Register, Reading, Value, User, Log
 from rest_framework import viewsets
 from rest_framework import permissions
 from actuator_project.actuator_api.serializers import ParameterSerializer, ReadingSerializer, ActuatorSerializer, UserSerializer, LogSerializer
 
 # Create your views here.
+def decodeData(data):
+    print(data)
 
 class UsersViewSet(viewsets.ModelViewSet):
     """
