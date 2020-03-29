@@ -1,27 +1,17 @@
-import sys
-import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../actuator_project'))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "actuator_project.settings")
-
-import django
-django.setup()
-from django.conf import settings
-
-from actuator_api.models import Reading, Actuator
-
 import pika
-import time
+from DBActions import *
+# import time
 
 def receiveData(ch, method, properties, body):
     data = eval(body)
+    print(data)
     key = data[0]
     data = data[1:]
     print(key)
     if(key == 'A'):
-        for addr in data:
-            a = Actuator(status=0, modbus_address=addr, model='ACT'+str(addr))
-            a.save()
+        storeActuators(data)
+    elif(key == 'P'):
+        print(storeReading(data))
 
 def run():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
