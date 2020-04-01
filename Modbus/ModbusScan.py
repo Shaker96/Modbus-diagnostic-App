@@ -1,11 +1,11 @@
 import minimalmodbus as modbus
-from Publisher import send_data
+from DBActions import storeActuators
 
 def run():
-    slaves = ['A']
+    slaves = []
     addr = 1
     reader = modbus.Instrument('COM1', addr, mode='rtu', close_port_after_each_call=False, debug=False)
-    while(addr <= 250):
+    while(addr <= 2):
         reader.address = addr
         tries = 0
         while(tries < 3):
@@ -18,7 +18,7 @@ def run():
                 tries += 1
                 print(str(addr) + ' empty, try ' + str(tries))
         addr += 1
-    send_data(slaves)
+    storeActuators(slaves)
 
 if __name__ == "__main__":
     run()

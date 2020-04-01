@@ -20,7 +20,10 @@ class Actuator(models.Model):
 
     status = models.SmallIntegerField(choices=Status)
     modbus_address = models.SmallIntegerField(unique=True)
-    model = models.CharField(max_length=200, unique=True)
+    model = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, blank=True)
+    def __str__(self):
+        return self.name
 
 class Reading(models.Model):
     actuator_id = models.ForeignKey(Actuator, on_delete=models.CASCADE)

@@ -12,7 +12,7 @@
         "pk": 2,
         "fields": {
             "register_number": 8,
-            "description": "Registr de Posicion de valvula (0-100)"
+            "description": "Registro de Posicion de valvula (0-100)"
         }
     },
     {
@@ -214,7 +214,7 @@
     },
     {
         "model": "actuator_api.register",
-        "pk": 1,
+        "pk": 25,
         "fields": {
             "register_number": 15,
             "description": "Registro de Torque (1-100)"

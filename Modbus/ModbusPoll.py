@@ -5,8 +5,6 @@ from DBActions import getActuators
 def run():
     actuator_arr = getActuators()
     data = ['P']
-    temp_dic = {}
-    output_arr = []
     reader = modbus.Instrument('COM1', 0, mode='rtu', close_port_after_each_call=False, debug=True)
     for addr in actuator_arr:
         reader.address = addr
@@ -14,7 +12,7 @@ def run():
         while flag < 10:
             try:
                 res = reader.read_registers(4, 11)
-                data.append([addr] + res) 
+                data += [addr] + res 
                 send_data(data)
                 flag = 10
             except:

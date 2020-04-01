@@ -8,9 +8,7 @@ def receiveData(ch, method, properties, body):
     key = data[0]
     data = data[1:]
     print(key)
-    if(key == 'A'):
-        storeActuators(data)
-    elif(key == 'P'):
+    if(key == 'P'):
         print(storeReading(data))
 
 def run():
