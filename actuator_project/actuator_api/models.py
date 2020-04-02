@@ -32,11 +32,15 @@ class Reading(models.Model):
     response_ok = models.BooleanField(default=False)
     class Meta:
         ordering = ['reading_date']
+    # def __str__(self):
+    #     return self.reading_date
 
 class Value(models.Model):
     register_id = models.ForeignKey(Register, on_delete=models.CASCADE)
     reading_id = models.ForeignKey(Reading, on_delete=models.CASCADE)
     value = models.IntegerField()
+    # def __str__(self):
+    #     return str(self.register_id) + ' ' + str(self.reading_id)
 
 class User(models.Model):
     SUPERADMIN = 0
