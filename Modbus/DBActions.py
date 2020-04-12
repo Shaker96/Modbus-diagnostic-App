@@ -29,7 +29,7 @@ def storeReading(data):
     r.save()
 
     for i in range(11):
-        reg = registers.filter(register_number=i+5)
+        reg = registers.filter(register_number = i + 5)
         if reg:
             if reg.filter(bit_number=None).exists():
                 storeValue(
@@ -73,4 +73,4 @@ def getActuators():
     return Actuator.objects.values_list('modbus_address', flat=True)
 
 if __name__ == '__main__':
-    storeReading([1, 0, 45, 34, 3, 3, 435, 57, 867, 786, 678, 978])
+    storeReading([1, 0, 45, 34, 3, 43690, 435, 57, 867, 786, 678, 978])

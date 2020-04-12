@@ -1,4 +1,4 @@
-from actuator_project.actuator_api.models import Parameter, Reading, Actuator, User, Log
+from actuator_project.actuator_api.models import Parameter, Reading, Actuator, Log
 from rest_framework import serializers
 
 class RegisterSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,14 +19,14 @@ class ReadingSerializer(serializers.HyperlinkedModelSerializer):
 class ValueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Value
-        fields = ['register_id', 'reading_id', 'value']
+        fields = ['register', 'reading', 'value']
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'name', 'role']
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['email', 'password', 'name', 'role']
 
 class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Log
-        fields = ['user_id', 'actuator_id', 'event', 'log_date']
+        fields = ['user', 'actuator', 'event', 'log_date']
