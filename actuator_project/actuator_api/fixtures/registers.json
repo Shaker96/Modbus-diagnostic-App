@@ -4,7 +4,9 @@
         "pk": 1,
         "fields": {
             "register_number": 5,
-            "description": "Registro de Alimentacion Principal (voltios)"
+            "description": "Registro de Alimentacion Principal (voltios)",
+            "min_value": 208,
+            "max_value": 575
         }
     },
     {
@@ -66,7 +68,9 @@
         "fields": {
             "register_number": 9,
             "description": "Valvula atascada",
-            "bit_number": 5
+            "bit_number": 5,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -75,7 +79,9 @@
         "fields": {
             "register_number": 9,
             "description": "NO en remoto",
-            "bit_number": 6
+            "bit_number": 6,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -84,7 +90,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla combinada",
-            "bit_number": 7
+            "bit_number": 7,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -93,7 +101,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla por sobrecalentamiento",
-            "bit_number": 8
+            "bit_number": 8,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -102,7 +112,9 @@
         "fields": {
             "register_number": 9,
             "description": "Perilla en STOP",
-            "bit_number": 9
+            "bit_number": 9,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -111,7 +123,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla en canal de red A (terminales 5 y 4)",
-            "bit_number": 10
+            "bit_number": 10,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -120,7 +134,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla en canal de red B (terminales 13 y 14)",
-            "bit_number": 11
+            "bit_number": 11,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -129,7 +145,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla Sobretorque en apertura",
-            "bit_number": 12
+            "bit_number": 12,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -138,7 +156,9 @@
         "fields": {
             "register_number": 9,
             "description": "Falla Sobretorque en cierre",
-            "bit_number": 13
+            "bit_number": 13,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -147,7 +167,9 @@
         "fields": {
             "register_number": 9,
             "description": "Valvula movida manualmente",
-            "bit_number": 14
+            "bit_number": 14,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -156,7 +178,9 @@
         "fields": {
             "register_number": 9,
             "description": "Error en fase de alimentacion",
-            "bit_number": 15
+            "bit_number": 15,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -165,7 +189,9 @@
         "fields": {
             "register_number": 10,
             "description": "Falla Fase Ausente",
-            "bit_number": 4
+            "bit_number": 4,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -174,7 +200,9 @@
         "fields": {
             "register_number": 10,
             "description": "Falla Fase Invertida",
-            "bit_number": 5
+            "bit_number": 5,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -183,7 +211,9 @@
         "fields": {
             "register_number": 10,
             "description": "Abriendo en modo local",
-            "bit_number": 14
+            "bit_number": 14,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -192,7 +222,9 @@
         "fields": {
             "register_number": 10,
             "description": "Cerrando en modo local",
-            "bit_number": 15
+            "bit_number": 15,
+            "min_value": 0,
+            "max_value": 0
         }
     },
     {
@@ -209,7 +241,9 @@
         "pk": 24,
         "fields": {
             "register_number": 14,
-            "description": "Registro de temperatura"
+            "description": "Registro de temperatura",
+            "min_value": -30,
+            "max_value": 60
         }
     },
     {
@@ -217,7 +251,9 @@
         "pk": 25,
         "fields": {
             "register_number": 15,
-            "description": "Registro de Torque (1-100)"
+            "description": "Registro de Torque (1-100)",
+            "min_value": 1,
+            "max_value": 100
         }
     }
 ]

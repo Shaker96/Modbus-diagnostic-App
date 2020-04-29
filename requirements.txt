@@ -1,13 +1,14 @@
 appdirs==1.4.3
 asgiref==3.2.5
 attrs==19.3.0
-black==19.10b0
 click==7.1.1
 Django==3.0.4
 djangorestframework==3.11.0
+djangorestframework-simplejwt==4.4.0
 minimalmodbus==1.0.2
 pathspec==0.7.0
 pika==1.1.0
+PyJWT==1.7.1
 pyserial==3.4
 pytz==2019.3
 regex==2020.2.20

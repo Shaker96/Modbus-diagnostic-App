@@ -1,4 +1,5 @@
-from actuator_project.actuator_api.models import Parameter, Reading, Actuator, Log
+from .models import *
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class RegisterSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,22 +10,22 @@ class RegisterSerializer(serializers.HyperlinkedModelSerializer):
 class ActuatorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actuator
-        fields = ['status', 'modbus_address', 'model']
+        fields = ['status', 'modbus_address', 'model', 'name']
 
 class ReadingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Reading
-        fields = ['reading_date', 'actuator_id']
+        fields = [ 'actuator', 'reading_date', 'raw_data', 'response_ok']
 
 class ValueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Value
         fields = ['register', 'reading', 'value']
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['email', 'password', 'name', 'role']
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'username']
 
 class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

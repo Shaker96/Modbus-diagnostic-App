@@ -1,11 +1,27 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 # Create your models here.
 
+class CustomUser(AbstractUser):
+    ADMIN = 0
+    REGULAR = 1
+
+    ROLES = (
+        (ADMIN, 'Admin'),
+        (REGULAR, 'Regular'),
+    )
+
+    role = models.PositiveSmallIntegerField(choices=ROLES, blank=True, null=True)
+    def __str__(self):
+        return str(self.username)
+
+# python manage.py loaddata registers
 class Register(models.Model):
     register_number = models.SmallIntegerField()
     description = models.CharField(max_length=200)
     bit_number = models.SmallIntegerField(null = True)
+    min_value = models.SmallIntegerField(null = True)
+    max_value = models.SmallIntegerField(null = True)
     def __str__(self):
         return self.description
 
@@ -13,12 +29,12 @@ class Actuator(models.Model):
     ACTIVE = 0
     INACTIVE = 1
 
-    Status = (
+    STATUS = (
         (ACTIVE, 'Active'),
         (INACTIVE, 'Inactive')
     )
 
-    status = models.SmallIntegerField(choices=Status)
+    status = models.SmallIntegerField(choices=STATUS)
     modbus_address = models.SmallIntegerField(unique=True)
     model = models.CharField(max_length=200, null=True)
     name = models.CharField(max_length=200, blank=True)
@@ -42,29 +58,18 @@ class Value(models.Model):
     def __str__(self):
         return str(self.register) + ' - Valor: ' + str(self.value)
 
-# class User(models.Model):
-#     SUPERADMIN = 0
-#     ADMIN = 1
-#     REGULAR = 2
-
-#     Role = (
-#         (SUPERADMIN, 'SuperAdmin'),
-#         (ADMIN, 'Admin'),
-#         (REGULAR, 'Regular'),
-#     )
-
-#     email = models.CharField(max_length=200, unique=True)
-#     password = models.CharField(max_length=200)
-#     name = models.CharField(max_length=200)
-#     role = models.IntegerField(choices=Role, default=REGULAR)
 
 class Log(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     actuator = models.ForeignKey(Actuator, on_delete=models.CASCADE, null = True)
     event = models.CharField(max_length=200)
     log_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['log_date']
-    
 
+class ActuatorAlert(models.Model):
+    actuator = models.ForeignKey(Actuator, on_delete=models.CASCADE)
+    register = models.ForeignKey(Register, on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.register.description)

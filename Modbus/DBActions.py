@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "actuator_project.settings")
 import django
 django.setup()
 from django.conf import settings
-from actuator_api.models import Reading, Actuator, Register, Value
+from actuator_api.models import Reading, Actuator, Register, Value, ActuatorAlert
 
 def storeActuators(data):
     for addr in data:
@@ -15,14 +15,14 @@ def storeActuators(data):
         a.save()
 
 def storeReading(data):
-    act_obj = Actuator.objects.filter(modbus_address=data[0])
+    actuator = Actuator.objects.filter(modbus_address=data[0])
     
     data = data[1:]
     raw = repr(data)
     registers = Register.objects.all() 
     
     r = Reading(
-        actuator_id=act_obj[0],
+        actuator=actuator[0],
         raw_data=raw,
         response_ok=True
     )
@@ -56,15 +56,22 @@ def storeBits(registers, reading, raw_value):
 
     for reg in registers:
         storeValue(
-            register_id= reg,
-            reading_id= reading,
-            value= bit_array[reg.bit_number]
+            register= reg,
+            reading= reading,
+            value= int(bit_array[reg.bit_number])
         )
 
-def storeValue(register_id, reading_id, value):
+def storeValue(register, reading, value):
+    if register.min_value != None:
+        if value < register.min_value or value > register.max_value:
+            alert = ActuatorAlert(
+                actuator = reading.actuator,
+                register = register
+            )
+            alert.save()
     v = Value(
-        register_id= register_id,
-        reading_id= reading_id,
+        register= register,
+        reading= reading,
         value= value
     )
     v.save()
@@ -73,4 +80,4 @@ def getActuators():
     return Actuator.objects.values_list('modbus_address', flat=True)
 
 if __name__ == '__main__':
-    storeReading([1, 0, 45, 34, 3, 43690, 435, 57, 867, 786, 678, 978])
+    storeReading([1, 400, 0, 0, 30, 23401, 32816, 0, 1, 0, 25, 50])
