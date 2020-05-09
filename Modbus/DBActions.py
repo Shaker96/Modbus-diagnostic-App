@@ -15,14 +15,20 @@ def storeActuators(data):
         a.save()
 
 def storeReading(data):
-    actuator = Actuator.objects.filter(modbus_address=data[0])
+    actuator = Actuator.objects.get(modbus_address=data[0])
     
     data = data[1:]
     raw = repr(data)
+    last_r = Reading.objects.filter(actuator=actuator).last()
+    if last_r is not None:
+        if last_r.raw_data == str(raw):
+            print('iguales')
+            return 0
+    
     registers = Register.objects.all() 
     
     r = Reading(
-        actuator=actuator[0],
+        actuator=actuator,
         raw_data=raw,
         response_ok=True
     )
@@ -62,18 +68,14 @@ def storeBits(registers, reading, raw_value):
         )
 
 def storeValue(register, reading, value):
-    if register.min_value != None:
-        if value < register.min_value or value > register.max_value:
-            alert = ActuatorAlert(
-                actuator = reading.actuator,
-                register = register
-            )
-            alert.save()
     v = Value(
         register= register,
         reading= reading,
         value= value
     )
+    if register.min_value != None:
+        if value < register.min_value or value > register.max_value:
+            v.alert = True
     v.save()
 
 def getActuators():

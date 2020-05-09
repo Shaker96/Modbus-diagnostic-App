@@ -6,7 +6,8 @@
             "register_number": 5,
             "description": "Registro de Alimentacion Principal (voltios)",
             "min_value": 208,
-            "max_value": 575
+            "max_value": 575,
+            "unit": "V"
         }
     },
     {
@@ -14,7 +15,8 @@
         "pk": 2,
         "fields": {
             "register_number": 8,
-            "description": "Registro de Posicion de valvula (0-100)"
+            "description": "Registro de Posicion de valvula",
+            "unit": "%"
         }
     },
     {
@@ -243,7 +245,8 @@
             "register_number": 14,
             "description": "Registro de temperatura",
             "min_value": -30,
-            "max_value": 60
+            "max_value": 60,
+            "unit": "°C"
         }
     },
     {
@@ -251,9 +254,10 @@
         "pk": 25,
         "fields": {
             "register_number": 15,
-            "description": "Registro de Torque (1-100)",
+            "description": "Registro de Torque",
             "min_value": 1,
-            "max_value": 100
+            "max_value": 100,
+            "unit": "%"
         }
     }
 ]
