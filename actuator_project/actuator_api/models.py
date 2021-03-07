@@ -1,17 +1,24 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class CustomUser(AbstractUser):
-    ADMIN = 0
-    REGULAR = 1
+    SUPERUSER = 0
+    ADMIN = 1
+    REGULAR = 2
 
     ROLES = (
+        (SUPERUSER, 'Superuser'),
         (ADMIN, 'Admin'),
         (REGULAR, 'Regular'),
     )
 
-    role = models.PositiveSmallIntegerField(choices=ROLES, blank=True, null=True)
+    role = models.PositiveSmallIntegerField(choices=ROLES)
+    idn = models.PositiveIntegerField(unique=True, validators=[
+            MaxValueValidator(150000000),
+            MinValueValidator(1)
+        ])
     def __str__(self):
         return str(self.username)
 
@@ -58,6 +65,7 @@ class Value(models.Model):
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE)
     value = models.IntegerField()
     alert = models.BooleanField(default=False)
+    alert_seen = models.BooleanField(default=False)
     def __str__(self):
         return str(self.register) + ' - Valor: ' + str(self.value)
 

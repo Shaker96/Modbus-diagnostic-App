@@ -23,7 +23,7 @@ class ReadingSerializer(serializers.ModelSerializer):
     actuator = ActuatorSerializer()
     class Meta:
         model = Reading
-        fields = ['actuator', 'date', 'value_set']
+        fields = ['actuator', 'date']
 
 class ValueSerializer(serializers.ModelSerializer):
     register = RegisterSerializer()
@@ -53,12 +53,20 @@ class ReadingWithValuesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reading
         fields = ['actuator', 'date', 'value_set']
-    
 
+# ----------------- Alert serializers ---------------------------
+
+class AlertSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(source='register.description')
+    actuator = serializers.CharField(source='reading.actuator.name')
+    date = serializers.DateTimeField(source='reading.date')
+    class Meta:
+        model = Value
+        fields = ['description', 'actuator', 'date', 'value']
 
     # def to_representation(self, value):
     #     return {
-    #         "actuator": ActuatorSerializer(value.actuator).data,
-    #         "date": value.date,
-    #         "values_set": ValueSerializer(value.value_set.all()).data
+    #         "description": value.register.description,
+    #         "date": value.reading.date,
+    #         "actuator": value.reading.actuator.name
     #     }
