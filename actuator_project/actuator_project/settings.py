@@ -80,7 +80,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    # 'actuator_api.middlewares.CorsMiddlewareCustom',
 ]
 
 ROOT_URLCONF = 'actuator_project.urls'
@@ -153,12 +152,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# CORS CONFIG  
+# # CORS CONFIG  
 
 CORS_ORIGIN_ALLOW_ALL = False # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:3007',
+    'http://localhost:3007',
 ] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ALLOW_HEADERS = default_headers + (
     'Access-Control-Allow-Origin',
@@ -171,6 +170,3 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
-# CORS_ORIGIN_REGEX_WHITELIST = [
-#     'http://localhost:3007',
-# ]
