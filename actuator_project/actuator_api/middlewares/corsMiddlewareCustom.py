@@ -1,7 +1,7 @@
 from django import http
-from django.utils.deprecation import MiddlewareMixin
 
-class CorsMiddlewareCustom(MiddlewareMixin):
+
+class CorsMiddlewareCustom(object):
     def init(self, get_response):
         self.get_response = get_response
 
