@@ -1,4 +1,4 @@
 /env
 /.idea
 /.vscode
-__pycache__/
+**/__pycache__/
