@@ -35,7 +35,7 @@ class CreateRegularUser(APIView):
 
 class Actuators(APIView):
     def get(self, request):
-        register_list = [1, 2, 12, 14, 23]
+        register_list = [1, 2, 12, 14, 23] #bits importantes de los holding registers
         # prefetch_related('reading_set').annotate(latest_reading_date=Max('reading__reading_date')).prefetch_related('value_set')
         actuators = Actuator.objects.all()
         data = []
