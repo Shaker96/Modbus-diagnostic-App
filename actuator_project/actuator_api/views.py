@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from .serializers import UserSerializer, ReadingWithValuesSerializer, AlertSerializer
 from .models import Actuator, Register, Reading, Value, CustomUser
+from django.core import serializers
 
 class CreateRegularUser(APIView):
     def post(self, request):
@@ -44,7 +45,7 @@ class Actuators(APIView):
             serializer = ReadingWithValuesSerializer(reading)
             data.append(serializer.data)
         # print(actuators[0].actuatoralert_set.all())
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data={ 'data': data }, status=status.HTTP_200_OK)
 
 class Alerts(APIView):
     def get(self, request):
