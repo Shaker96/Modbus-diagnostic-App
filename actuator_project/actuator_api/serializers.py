@@ -54,6 +54,38 @@ class ReadingWithValuesSerializer(serializers.ModelSerializer):
         model = Reading
         fields = ['actuator', 'date', 'value_set']
 
+    def to_representation(self, data):
+        data = super(ReadingWithValuesSerializer, self).to_representation(data)
+        value_set = data.get('value_set')
+        actuator = data.get('actuator')
+        actuator_data = {
+            "name": actuator.get('name'),
+            "data": [
+                { 
+                    "name": "Dir. Modbus",
+                    "value": actuator.get('modbus_address')
+                },
+                {
+                    "name": "temperatura",
+                    "value": str(value_set[4].get('value')) + ' ' + value_set[4].get('register').get('unit')
+                },
+                {
+                    "name": "Alimentacion",
+                    "value": str(value_set[0].get('value')) + ' ' + value_set[0].get('register').get('unit')
+                },
+                {
+                    "name": "Apertura",
+                    "value": str(value_set[1].get('value')) + value_set[1].get('register').get('unit')
+                },
+                {
+                    "name": "Modo",
+                    "value": "Stop" if value_set[2].get('value') == 1 else ("Remoto" if value_set[3].get('value') == 1 else "Local") 
+                }
+            ]
+        }
+
+        return actuator_data
+
 # ----------------- Alert serializers ---------------------------
 
 class AlertSerializer(serializers.ModelSerializer):
