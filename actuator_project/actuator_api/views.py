@@ -10,8 +10,8 @@ from django.core.exceptions import ValidationError
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
-from .serializers import UserSerializer, ReadingWithValuesSerializer, AlertSerializer
+from actuator_api.custom_classes.customPageNumberPagination import CustomPageNumberPagination
+from .serializers import UserSerializer, ReadingWithValuesSerializer, ActuatorsWithMainValuesSerializer, AlertSerializer
 from .models import Actuator, Register, Reading, Value, CustomUser
 from django.core import serializers
 
@@ -42,20 +42,26 @@ class Actuators(APIView):
         data = []
         for actuator in actuators:
             reading = actuator.reading_set.prefetch_related(Prefetch('value_set', queryset=Value.objects.filter(register__in=register_list))).last()
-            serializer = ReadingWithValuesSerializer(reading)
+            serializer = ActuatorsWithMainValuesSerializer(reading)
             data.append(serializer.data)
         # print(actuators[0].actuatoralert_set.all())
         return Response(data={ 'data': data }, status=status.HTTP_200_OK)
 
 class Alerts(APIView):
     def get(self, request):
+        paginator = CustomPageNumberPagination()
         values = Value.objects.filter(alert=True, alert_seen=False)
-        serializer = AlertSerializer(values, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        
+        page = paginator.paginate_queryset(values, request)
+        
+        serializer = AlertSerializer(page, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
+        # return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class Readings(APIView):
     def get(self, request, actuator_id):
-        paginator = PageNumberPagination()
+        paginator = CustomPageNumberPagination()
         queryset = Reading.objects.filter(actuator_id=actuator_id)
         page = paginator.paginate_queryset(queryset, request)
 

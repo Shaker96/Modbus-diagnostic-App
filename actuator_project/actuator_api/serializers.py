@@ -47,7 +47,7 @@ class ValueSetSerializer(serializers.ModelSerializer):
         model = Value
         fields = ['register', 'reading', 'value']
 
-class ReadingWithValuesSerializer(serializers.ModelSerializer):
+class ActuatorsWithMainValuesSerializer(serializers.ModelSerializer):
     actuator = ActuatorSerializer()
     value_set = ValueSetSerializer(many=True)
     class Meta:
@@ -55,7 +55,7 @@ class ReadingWithValuesSerializer(serializers.ModelSerializer):
         fields = ['actuator', 'date', 'value_set']
 
     def to_representation(self, data):
-        data = super(ReadingWithValuesSerializer, self).to_representation(data)
+        data = super(ActuatorsWithMainValuesSerializer, self).to_representation(data)
         value_set = data.get('value_set')
         actuator = data.get('actuator')
         actuator_data = {
@@ -85,6 +85,13 @@ class ReadingWithValuesSerializer(serializers.ModelSerializer):
         }
 
         return actuator_data
+
+class ReadingWithValuesSerializer(serializers.ModelSerializer):
+    actuator = ActuatorSerializer()
+    value_set = ValueSetSerializer(many=True)
+    class Meta:
+        model = Reading
+        fields = ['actuator', 'date', 'value_set']
 
 # ----------------- Alert serializers ---------------------------
 
