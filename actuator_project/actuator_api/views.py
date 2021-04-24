@@ -10,8 +10,9 @@ from django.core.exceptions import ValidationError
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from actuator_api.custom_classes.customPageNumberPagination import CustomPageNumberPagination
-from .serializers import UserSerializer, ReadingWithValuesSerializer, ActuatorsWithMainValuesSerializer, AlertSerializer
+from .serializers import *
 from .models import Actuator, Register, Reading, Value, CustomUser
 from django.core import serializers
 
@@ -33,6 +34,19 @@ class CreateRegularUser(APIView):
         except ValidationError as e:
             return Response(data=e.message_dict, status=status.HTTP_400_BAD_REQUEST)
 
+class Logout(APIView):
+    def post(self, request):
+        Rtoken = request.data["refresh"]
+        token = RefreshToken(Rtoken)
+        token.blacklist()
+        return Response(data={ 'logout successful' }, status=status.HTTP_200_OK)
+
+class ActuatorInfo(APIView):
+    def get(self, request, actuator_id):
+        actuator = Actuator.objects.get(id=actuator_id)
+        serializer = ActuatorSerializer(actuator)
+
+        return Response(data={ 'data': serializer.data}, status=status.HTTP_200_OK)
 
 class Actuators(APIView):
     def get(self, request):
@@ -68,4 +82,27 @@ class Readings(APIView):
         serializer = ReadingWithValuesSerializer(page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
+
+
+class Events(APIView): 
+    def get(self, request):
+        paginator = CustomPageNumberPagination()
+        logs = Log.objects.all()
+
+        page = paginator.paginate_queryset(logs, request)
+
+        serializer = EventsSerializer(page, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
         
+    def post(self, request):
+
+        Log.objects.create(
+            user= CustomUser.objects.filter(id=request.user.id)[0],
+            actuator= Actuator.objects.filter(id=request.data['actuator_id'])[0] if 'actuator_id' in request.data else None,
+            event= request.data['type']
+        )
+
+        print(request.user.id)
+
+        return Response(data={ 'hola' }, status=status.HTTP_200_OK)

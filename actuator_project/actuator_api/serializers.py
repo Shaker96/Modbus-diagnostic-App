@@ -17,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ActuatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actuator
-        fields = ['status', 'modbus_address', 'model', 'name']
+        fields = ['id', 'status', 'modbus_address', 'model', 'name']
 
 class ReadingSerializer(serializers.ModelSerializer):
     actuator = ActuatorSerializer()
@@ -59,7 +59,9 @@ class ActuatorsWithMainValuesSerializer(serializers.ModelSerializer):
         value_set = data.get('value_set')
         actuator = data.get('actuator')
         actuator_data = {
+            "id": actuator.get('id'),
             "name": actuator.get('name'),
+            "model": actuator.get('model'),
             "data": [
                 { 
                     "name": "Dir. Modbus",
@@ -87,11 +89,39 @@ class ActuatorsWithMainValuesSerializer(serializers.ModelSerializer):
         return actuator_data
 
 class ReadingWithValuesSerializer(serializers.ModelSerializer):
-    actuator = ActuatorSerializer()
+    # actuator = ActuatorSerializer()
     value_set = ValueSetSerializer(many=True)
     class Meta:
         model = Reading
-        fields = ['actuator', 'date', 'value_set']
+        fields = ['date', 'value_set']
+
+
+class EventsSerializer(serializers.ModelSerializer):
+    LOGIN = 0
+    LOGOUT = 1
+    SIGNUP = 2
+    ACTUATOR = 3
+    READING = 4
+    READINGS = 5
+
+    EVENTS = (
+        ('El usuario ha iniciado sesión', 0),
+        ('El usuario ha cerrado sesión', 1),
+        ('Se ha creado un nuevo usuario', 2),
+        ('Un actuador ha sido operado manualmente', 3),
+        ('Nueva lectura disponible', 4),
+        ('El usuario accedió a las lecturas del actuador', 5)
+    )
+
+    actuator = serializers.CharField(source='actuator.name', required=False)
+    user = serializers.CharField(source='user.username', required=False)
+    log_date = serializers.DateTimeField()
+    event = serializers.CharField(source='get_event_display')
+    class Meta: 
+        model = Log
+        fields = ['actuator', 'user', 'event', 'log_date']
+
+    
 
 # ----------------- Alert serializers ---------------------------
 

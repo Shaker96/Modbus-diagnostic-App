@@ -71,13 +71,33 @@ class Value(models.Model):
 
 
 class Log(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    actuator = models.ForeignKey(Actuator, on_delete=models.CASCADE, null = True)
-    event = models.CharField(max_length=200)
+    LOGIN = 0
+    LOGOUT = 1
+    SIGNUP = 2
+    ACTUATOR = 3
+    READING = 4
+    READINGS = 5
+
+
+    EVENTS = (
+        (LOGIN, 'El usuario ha iniciado sesión'),
+        (LOGOUT, 'El usuario ha cerrado sesión'),
+        (SIGNUP, 'Se ha creado un nuevo usuario'),
+        (ACTUATOR, 'Un actuador ha sido operado manualmente'),
+        (READING, 'Nueva lectura disponible'),
+        (READINGS, 'El usuario accedió a las lecturas del actuador')
+    )
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null= True, blank= True)
+    actuator = models.ForeignKey(Actuator, on_delete=models.CASCADE, null = True, blank= True)
+    event = models.SmallIntegerField(choices=EVENTS)
     log_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-log_date']
+
+    def str(self):
+        return self.get_description_display()
 
 # class ActuatorAlert(models.Model):
 #     value = models.ForeignKey(Value, on_delete=models.CASCADE)
