@@ -12,5 +12,6 @@ urlpatterns = [
     path('alerts/', Alerts.as_view(), name='alerts'),
     path('events/', Events.as_view(), name='get-events'),
     path('events/', Events.as_view(), name='create-events'),
-    path('readings/<int:actuator_id>', Readings.as_view(), name='readings')
+    path('readings/', Readings.as_view(), name='readings'),
+    path('move/', ActuatorMovement.as_view(), name='move-actuator')
 ]

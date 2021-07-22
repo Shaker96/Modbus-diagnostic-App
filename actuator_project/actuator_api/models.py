@@ -77,7 +77,7 @@ class Log(models.Model):
     ACTUATOR = 3
     READING = 4
     READINGS = 5
-
+    OFFLINE = 6
 
     EVENTS = (
         (LOGIN, 'El usuario ha iniciado sesión'),
@@ -85,7 +85,8 @@ class Log(models.Model):
         (SIGNUP, 'Se ha creado un nuevo usuario'),
         (ACTUATOR, 'Un actuador ha sido operado manualmente'),
         (READING, 'Nueva lectura disponible'),
-        (READINGS, 'El usuario accedió a las lecturas del actuador')
+        (READINGS, 'El usuario accedió a las lecturas del actuador'),
+        (OFFLINE, 'El actuador se encuentra desconectado')
     )
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null= True, blank= True)

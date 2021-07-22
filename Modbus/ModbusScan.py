@@ -5,7 +5,8 @@ def run():
     slaves = []
     addr = 1
     reader = modbus.Instrument('COM1', addr, mode='rtu', close_port_after_each_call=False, debug=False)
-    while(addr <= 2):
+    reader.serial.baudrate = 9600
+    while(addr <= 2): #2 debe ser reemplazado por 247, nro maximo de actuadores para red DDC
         reader.address = addr
         tries = 0
         while(tries < 3):

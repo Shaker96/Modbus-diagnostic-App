@@ -2,6 +2,7 @@
 from django.shortcuts import render
 # app and django rest imports
 import json
+import minimalmodbus as modbus
 from django.db.models import Max
 from django.db.models import Prefetch
 from django.conf import settings
@@ -13,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from actuator_api.custom_classes.customPageNumberPagination import CustomPageNumberPagination
 from .serializers import *
-from .models import Actuator, Register, Reading, Value, CustomUser
+from .models import Actuator, Register, Reading, Value, CustomUser, Log
 from django.core import serializers
 
 class CreateRegularUser(APIView):
@@ -61,6 +62,29 @@ class Actuators(APIView):
         # print(actuators[0].actuatoralert_set.all())
         return Response(data={ 'data': data }, status=status.HTTP_200_OK)
 
+class ActuatorMovement(APIView):
+    def post(self, request):
+        position = int(request.data['position'])
+        mb_addr = int(request.data['address'])
+        writer = modbus.Instrument('COM1', mb_addr, mode='rtu', close_port_after_each_call=False, debug=True)
+        writer.serial.baudrate = 9600
+        move_to = 768 if position == 0 else 256 if position == 100 else position
+        try: 
+            if (move_to > 0 and move_to < 100): 
+                writer.write_registers(0, [6656, move_to])
+            elif (move_to in [768, 256, 512]):
+                writer.write_register(0, move_to, number_of_decimals=0, functioncode=6, signed=False)
+            else:
+                return Response(data={ 'result': 'Posición Invalida' }, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(data={ 'result': False }, status=status.HTTP_400_BAD_REQUEST)
+
+        actuator = Actuator.objects.get(modbus_address=mb_addr)
+        l = Log(actuator=actuator, event=3)
+        l.save()
+
+        return Response(data={ 'result': True }, status=status.HTTP_200_OK)
+
 class Alerts(APIView):
     def get(self, request):
         paginator = CustomPageNumberPagination()
@@ -74,14 +98,20 @@ class Alerts(APIView):
         # return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class Readings(APIView):
-    def get(self, request, actuator_id):
+    def post(self, request):
         paginator = CustomPageNumberPagination()
-        queryset = Reading.objects.filter(actuator_id=actuator_id)
-        page = paginator.paginate_queryset(queryset, request)
+        queryset = Reading.objects.filter(
+            actuator_id=request.data['actuator_id'], 
+            date__range=[request.data['date_from'], request.data['date_to']]
+        )
+        serializer = ReadingWithValuesSerializer(queryset, many=True)
 
-        serializer = ReadingWithValuesSerializer(page, many=True)
+        return Response(data={'results': serializer.data}, status=status.HTTP_200_OK)
+        # page = paginator.paginate_queryset(queryset, request)
 
-        return paginator.get_paginated_response(serializer.data)
+        # serializer = ReadingWithValuesSerializer(page, many=True)
+
+        # return paginator.get_paginated_response(serializer.data)
 
 
 class Events(APIView): 

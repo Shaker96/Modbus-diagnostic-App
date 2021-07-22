@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "actuator_project.settings")
 import django
 django.setup()
 from django.conf import settings
-from actuator_api.models import Reading, Actuator, Register, Value
+from actuator_api.models import Reading, Actuator, Register, Value, Log
 
 def storeActuators(data):
     for addr in data:
@@ -16,8 +16,30 @@ def storeActuators(data):
 
 def storeReading(data):
     actuator = Actuator.objects.get(modbus_address=data[0])
-    
     data = data[1:]
+    
+    # almacenar Consulta fallida
+    if (len(data) == 0):
+        if (actuator.status == 1):
+            return 0
+
+        r = Reading(
+            actuator=actuator
+        )
+        r.save()
+        l = Log(
+            actuator=actuator,
+            event=6
+        )
+        l.save()
+        actuator.status = 1
+        actuator.save()
+        return 0
+
+    if (actuator.status == 1):
+        actuator.status = 0
+        actuator.save()
+
     raw = repr(data)
     last_r = Reading.objects.filter(actuator=actuator).last()
     if last_r is not None:
@@ -83,3 +105,4 @@ def getActuators():
 
 if __name__ == '__main__':
     storeReading([1, 381, 0, 0, 30, 23411, 32816, 0, 1, 0, 25, 50])
+    # storeReading([1])

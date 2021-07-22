@@ -5,18 +5,14 @@ from DBActions import *
 def receiveData(ch, method, properties, body):
     data = eval(body)
     print(data)
-    key = data[0]
-    data = data[1:]
-    print(key)
-    if(key == 'P'):
-        print(storeReading(data))
+    print(storeReading(data))
 
 def run():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue='hello')
-    channel.basic_consume(queue='hello', on_message_callback=receiveData, auto_ack=True)
+    channel.queue_declare(queue='queue')
+    channel.basic_consume(queue='queue', on_message_callback=receiveData, auto_ack=True)
 
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()

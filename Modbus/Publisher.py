@@ -4,9 +4,9 @@ def send_data(msg):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue='hello')
+    channel.queue_declare(queue='queue')
 
-    channel.basic_publish(exchange='', routing_key='hello', body=repr(msg))
+    channel.basic_publish(exchange='', routing_key='queue', body=repr(msg))
     print(" [x] Sent 'Hello World!'")
     connection.close()
 
