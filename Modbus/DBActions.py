@@ -104,5 +104,5 @@ def getActuators():
     return Actuator.objects.values_list('modbus_address', flat=True)
 
 if __name__ == '__main__':
-    storeReading([1, 381, 0, 0, 30, 23411, 32816, 0, 1, 0, 25, 50])
+    storeReading([10, 381, 0, 0, 30, 23411, 32816, 0, 1, 0, 25, 50])
     # storeReading([1])

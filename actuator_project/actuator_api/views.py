@@ -3,6 +3,7 @@ from django.shortcuts import render
 # app and django rest imports
 import json
 import minimalmodbus as modbus
+from django.db.models import Q
 from django.db.models import Max
 from django.db.models import Prefetch
 from django.conf import settings
@@ -102,8 +103,8 @@ class Readings(APIView):
         paginator = CustomPageNumberPagination()
         queryset = Reading.objects.filter(
             actuator_id=request.data['actuator_id'], 
-            date__range=[request.data['date_from'], request.data['date_to']]
-        )
+            date__range=[request.data['date_from'], request.data['date_to']],
+        ).exclude(raw_data='error')
         serializer = ReadingWithValuesSerializer(queryset, many=True)
 
         return Response(data={'results': serializer.data}, status=status.HTTP_200_OK)
