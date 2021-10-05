@@ -55,6 +55,7 @@ class Reading(models.Model):
     date = models.DateTimeField(auto_now=True)
     raw_data = models.CharField(max_length=200, default='error')
     response_ok = models.BooleanField(default=False)
+    diagnosis_ok = models.BooleanField(default=True)
     # class Meta:
     #     ordering = ['-date']
     def __str__(self):

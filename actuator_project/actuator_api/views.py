@@ -86,6 +86,19 @@ class ActuatorMovement(APIView):
 
         return Response(data={ 'result': True }, status=status.HTTP_200_OK)
 
+class ActuatorDiagnosis(APIView):
+    def get(self, request, actuator_id):
+        register_list = [1, 24, 25]
+        actuator = Actuator.objects.get(id=actuator_id)
+        readings = actuator.reading_set.prefetch_related(Prefetch('value_set', queryset=Value.objects.filter(register__in=register_list))).exclude(raw_data='error')
+
+        print(readings)
+
+        serializer = DiagnosisSerializer(readings, many=True)
+
+        return Response(data={ 'data': serializer.data}, status=status.HTTP_200_OK)
+        
+
 class Alerts(APIView):
     def get(self, request):
         paginator = CustomPageNumberPagination()

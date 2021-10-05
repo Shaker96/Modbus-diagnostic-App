@@ -68,7 +68,7 @@ class ActuatorsWithMainValuesSerializer(serializers.ModelSerializer):
                     "value": actuator.get('modbus_address')
                 },
                 {
-                    "name": "temperatura",
+                    "name": "Temperatura",
                     "value": str(value_set[4].get('value')) + ' ' + value_set[4].get('register').get('unit')
                 },
                 {
@@ -86,6 +86,37 @@ class ActuatorsWithMainValuesSerializer(serializers.ModelSerializer):
             ]
         }
 
+        return actuator_data
+
+class DiagnosisSerializer(serializers.ModelSerializer):
+    value_set = ValueSetSerializer(many=True)
+    class Meta:
+        model = Reading
+        fields = ['date', 'value_set', 'diagnosis_ok']
+
+    def to_representation(self, data):
+        data = super(DiagnosisSerializer, self).to_representation(data)
+        value_set = data.get('value_set')
+        date = data.get('date')
+        diagnosis_ok = data.get('diagnosis_ok')
+        actuator_data = {
+            "date": date,
+            "diagnosis_ok": diagnosis_ok,
+            "data": [
+                {
+                    "name": "Alimentacion (" + value_set[0].get('register').get('unit') + ')',
+                    "value": value_set[0].get('value')
+                },
+                {
+                    "name": "Temperatura (" + value_set[1].get('register').get('unit') + ')',
+                    "value": value_set[1].get('value')
+                },
+                {
+                    "name": "Torque (" + value_set[2].get('register').get('unit') + ')',
+                    "value": value_set[2].get('value')
+                }
+            ]
+        }
         return actuator_data
 
 class ReadingWithValuesSerializer(serializers.ModelSerializer):

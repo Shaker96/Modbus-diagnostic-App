@@ -13,5 +13,7 @@ urlpatterns = [
     path('events/', Events.as_view(), name='get-events'),
     path('events/', Events.as_view(), name='create-events'),
     path('readings/', Readings.as_view(), name='readings'),
-    path('move/', ActuatorMovement.as_view(), name='move-actuator')
+    path('move/', ActuatorMovement.as_view(), name='move-actuator'),
+    path('diagnosis/<int:actuator_id>', ActuatorDiagnosis.as_view(), name='get-actuator-diagnosis')
+
 ]
